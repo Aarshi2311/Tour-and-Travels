@@ -1,0 +1,54 @@
+.explore-container {
+  padding: 60px 8%;
+  background: #f8fbff;
+  min-height: 100vh;
+}
+
+.explore-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Category Buttons */
+.category-buttons {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.category-buttons button {
+  margin: 10px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.category-buttons button.active {
+  background: linear-gradient(to right, #2575fc, #6a11cb);
+  color: white;
+  border: none;
+}
+
+.category-buttons button:hover {
+  transform: scale(1.05);
+}
+
+/* Grid */
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+}
+.reviews-section {
+  margin-top: 80px;
+  text-align: center;
+}
+
+.reviews-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
