@@ -103,5 +103,18 @@
     font-size: 16px;
     line-height: 1.6;
 }
+.overlay {
+  backdrop-filter: blur(4px);
+}
+.login-next a,
+.signup-text a {
+  color: #6a11cb;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 5px;
+}
 
-
+.login-next a:hover,
+.signup-text a:hover {
+  text-decoration: underline;
+}
