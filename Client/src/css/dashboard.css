@@ -2,8 +2,12 @@
   min-height: auto;
   background: #f8fafc;
   margin-top: 90px;
-  padding-top: 40px;
-  padding-bottom: 60px;
+  padding: 40px 0 60px 0;
+}
+
+.dashboard-page .container {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Header */
@@ -12,15 +16,34 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 50px;
+  padding: 30px 40px;
+  background: linear-gradient(135deg, white 0%, #f8fafc 100%);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+  border-left: 4px solid #d4af37;
 }
 
 .dashboard-header h1 {
   font-size: 32px;
   margin-bottom: 8px;
+  line-height: 1.2;
+  color: #0f172a;
 }
 
 .dashboard-sub {
   color: #64748b;
+  margin: 0;
+  font-size: 15px;
+}
+
+.dashboard-header button {
+  white-space: nowrap;
+  transition: 0.3s ease;
+}
+
+.dashboard-header button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
 }
 
 /* Stats */
