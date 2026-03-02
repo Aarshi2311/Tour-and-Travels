@@ -85,14 +85,14 @@
 }
 
 .login-form-section input:focus{
-    border-color: #6a11cb;
+    border-color: #192239;
 }
 
 .login-form-section button{
     width: 100%;
     padding: 14px;
     font-weight: 600;
-    background: linear-gradient(to right, #2575fc, #6a11cb);
+    background: #192239;
     color: white;
     border: none;
     border-radius: 30px;
@@ -111,12 +111,12 @@
 }
 
 .signup-text span{
-    color: #6a11cb;
+    color: #192239;
     font-weight: 600;
     cursor: pointer;
 }
 .signup-text a {
-  color: #6a11cb;
+  color: #192239;
   font-weight: 600;
   text-decoration: none;
 }
@@ -128,7 +128,7 @@
 }
 .login-next a,
 .signup-text a {
-  color: #6a11cb;
+  color: #192239;
   font-weight: 600;
   text-decoration: none;
   margin-left: 5px;
