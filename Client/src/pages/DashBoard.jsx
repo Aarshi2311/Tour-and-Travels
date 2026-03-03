@@ -29,8 +29,8 @@ function Dashboard() {
               </p>
 
               <div style={{ display: "flex", gap: "15px", justifyContent: "center" }}>
-                <Link to="/login" className="btn btn-gold">
-                  Login
+                <Link to="/signin" className="btn btn-gold">
+                  Sign In
                 </Link>
                 <Link to="/signup" className="btn btn-gold">
                   Sign Up

@@ -176,8 +176,8 @@ function PackageCard({ pkg }) {
 
   const handleBooking = () => {
   if (!user) {
-    alert("Please login to book this package.");
-    navigate("/login");
+    alert("Please sign in to book this package.");
+    navigate("/signin");
     return;
   }
 

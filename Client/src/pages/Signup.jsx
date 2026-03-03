@@ -19,7 +19,7 @@ function Signup() {
 
           <button type="submit">Sign Up</button>
           <div className="login-next">
-            Already have an account? <Link to="/Login">Login</Link>
+            Already have an account? <Link to="/signin">Sign In</Link>
           </div>
         </form>
       </div>
