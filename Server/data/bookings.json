@@ -1,0 +1,24 @@
+[
+  {
+    "packageId": 1,
+    "packageName": "Maldives Escape",
+    "destination": "Maldives",
+    "duration": "5 Days / 4 Nights",
+    "pricePerPerson": 5000,
+    "people": 2,
+    "totalPrice": 10000,
+    "userEmail": "aarshi@gmail.com",
+    "bookedAt": "05/03/2026, 8:30 PM"
+  },
+  {
+    "packageId": 1,
+    "packageName": "Maldives Escape",
+    "destination": "Maldives",
+    "duration": "5 Days / 4 Nights",
+    "pricePerPerson": 5000,
+    "people": 2,
+    "totalPrice": 10000,
+    "userEmail": "aarshi@gmail.com",
+    "bookedAt": "05/03/2026, 8:30 PM"
+  }
+]
