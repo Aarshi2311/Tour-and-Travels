@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "Maldives Escape",
+    "destination": "Maldives",
+    "duration": "5 Days / 4 Nights",
+    "price": 5000
+  },
+  {
+    "id": 2,
+    "name": "Swiss Alps Retreat",
+    "destination": "Switzerland",
+    "duration": "7 Days / 6 Nights",
+    "price": 8000
+  },
+  {
+    "id": 3,
+    "name": "Dubai Luxury Tour",
+    "destination": "Dubai",
+    "duration": "4 Days / 3 Nights",
+    "price": 6000
+  },
+  {
+    "id": 4,
+    "name": "Santorini Bliss",
+    "destination": "Greece",
+    "duration": "6 Days / 5 Nights",
+    "price": 7500
+  },
+  {
+    "id": 5,
+    "name": "Bali Paradise",
+    "destination": "Indonesia",
+    "duration": "5 Days / 4 Nights",
+    "price": 4500
+  }
+]
