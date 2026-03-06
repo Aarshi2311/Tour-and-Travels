@@ -6,6 +6,7 @@ const packageRoutes = require("./routes/packagesRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const logger = require("./middleware/logger");
+const cors = require("cors");
 
 const app = express();
 const PORT = 3000;
@@ -22,6 +23,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(logger); // Custom logger middleware
 
+// CORS configuration
+app.use(cors());
 /* ================= Routes ================= */
 
 app.use("/api/auth", authRoutes);
