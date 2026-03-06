@@ -9,7 +9,7 @@ const logger = require("./middleware/logger");
 
 const app = express();
 const PORT = 3000;
-const HOST = "127.0.0.1";
+// const HOST = "127.0.0.1";
 
 /* ================= Middleware ================= */
 
@@ -43,6 +43,6 @@ app.use((req, res) => {
 
 /* ================= Start Server ================= */
 
-app.listen(PORT, HOST, () => {
-  console.log(`Server running at http://${HOST}:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });

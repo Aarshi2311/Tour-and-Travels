@@ -1,5 +1,3 @@
-LOGGER . JS
-
 function logger(req , res , next){
     const time = new Date().toLocaleString();
 
