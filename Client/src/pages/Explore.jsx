@@ -1,96 +1,106 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../css/explore.css";
 import Footer from "../components/Footer";
 
 function Explore() {
-  const packagesData = [
-    {
-      id: 1,
-      name: "Maldives Escape",
-      destination: "Maldives",
-      price: 5000,
-      duration: "5 Days / 4 Nights",
-      image:
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-    },
-    {
-      id: 2,
-      name: "Swiss Alps Retreat",
-      destination: "Switzerland",
-      price: 8000,
-      duration: "7 Days / 6 Nights",
-      image:
-        "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
-    },
-    {
-      id: 3,
-      name: "Dubai Luxury Tour",
-      destination: "Dubai",
-      price: 6000,
-      duration: "4 Days / 3 Nights",
-      image:
-        "https://images.unsplash.com/photo-1518684079-3c830dcef090",
-    },
-    {
-      id: 4,
-      name: "Santorini Bliss",
-      destination: "Greece",
-      price: 7500,
-      duration: "6 Days / 5 Nights",
-      image:
-        "https://images.unsplash.com/photo-1505761671935-60b3a7427bad",
-    },
-    {
-      id: 5,
-      name: "Bali Paradise",
-      destination: "Indonesia",
-      price: 4500,
-      duration: "5 Days / 4 Nights",
-      image:
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-    },
-    {
-      id: 6,
-      name: "Paris Royal Stay",
-      destination: "France",
-      price: 9000,
-      duration: "7 Days / 6 Nights",
-      image:
-        "https://images.unsplash.com/photo-1502602898657-3e91760cbb34",
-    },
-    {
-      id: 7,
-      name: "Tokyo Discovery",
-      destination: "Japan",
-      price: 8500,
-      duration: "6 Days / 5 Nights",
-      image:
-        "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1000&q=80",
-    },
-    {
-      id: 8,
-      name: "New York Experience",
-      destination: "USA",
-      price: 7000,
-      duration: "5 Days / 4 Nights",
-      image:
-        "https://images.unsplash.com/photo-1513407030348-c983a97b98d8?auto=format&fit=crop&w=1200&q=80",
-    },
-    {
-      id: 9,
-      name: "Iceland Northern Lights",
-      destination: "Iceland",
-      price: 9500,
-      duration: "6 Days / 5 Nights",
-      image:
-        "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1200&q=80",
-    },
-  ];
-
+  // const packagesData = [
+  //   {
+  //     id: 1,
+  //     name: "Maldives Escape",
+  //     destination: "Maldives",
+  //     price: 5000,
+  //     duration: "5 Days / 4 Nights",
+  //     image:
+  //       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Swiss Alps Retreat",
+  //     destination: "Switzerland",
+  //     price: 8000,
+  //     duration: "7 Days / 6 Nights",
+  //     image:
+  //       "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Dubai Luxury Tour",
+  //     destination: "Dubai",
+  //     price: 6000,
+  //     duration: "4 Days / 3 Nights",
+  //     image:
+  //       "https://images.unsplash.com/photo-1518684079-3c830dcef090",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Santorini Bliss",
+  //     destination: "Greece",
+  //     price: 7500,
+  //     duration: "6 Days / 5 Nights",
+  //     image:
+  //       "https://images.unsplash.com/photo-1505761671935-60b3a7427bad",
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Bali Paradise",
+  //     destination: "Indonesia",
+  //     price: 4500,
+  //     duration: "5 Days / 4 Nights",
+  //     image:
+  //       "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "Paris Royal Stay",
+  //     destination: "France",
+  //     price: 9000,
+  //     duration: "7 Days / 6 Nights",
+  //     image:
+  //       "https://images.unsplash.com/photo-1502602898657-3e91760cbb34",
+  //   },
+  //   {
+  //     id: 7,
+  //     name: "Tokyo Discovery",
+  //     destination: "Japan",
+  //     price: 8500,
+  //     duration: "6 Days / 5 Nights",
+  //     image:
+  //       "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1000&q=80",
+  //   },
+  //   {
+  //     id: 8,
+  //     name: "New York Experience",
+  //     destination: "USA",
+  //     price: 7000,
+  //     duration: "5 Days / 4 Nights",
+  //     image:
+  //       "https://images.unsplash.com/photo-1513407030348-c983a97b98d8?auto=format&fit=crop&w=1200&q=80",
+  //   },
+  //   {
+  //     id: 9,
+  //     name: "Iceland Northern Lights",
+  //     destination: "Iceland",
+  //     price: 9500,
+  //     duration: "6 Days / 5 Nights",
+  //     image:
+  //       "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1200&q=80",
+  //   },
+  // ];
+const [packagesData, setPackagesData] = useState([]);
   const [search, setSearch] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  
+useEffect(() => {
+  fetch("http://localhost:3000/api/packages")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("Packages from backend:", data);
+      setPackagesData(data);
+    })
+    .catch((err) => console.error("Error fetching packages:", err));
+}, []);
 
   const filteredPackages = packagesData.filter((pkg) => {
     const matchesSearch =
@@ -207,7 +217,10 @@ function PackageCard({ pkg }) {
   return (
     <div className="package-card">
       <div className="badge">Limited Slots</div>
-      <img src={pkg.image} alt={pkg.name} />
+   <img
+  src={pkg.image || "https://via.placeholder.com/400"}
+  alt={pkg.name}
+/>
 
       <div className="card-content">
         <h3>{pkg.name}</h3>
