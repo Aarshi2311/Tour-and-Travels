@@ -20,5 +20,16 @@
     "totalPrice": 10000,
     "userEmail": "aarshi@gmail.com",
     "bookedAt": "05/03/2026, 8:30 PM"
+  },
+  {
+    "packageId": 3,
+    "packageName": "Dubai Luxury Tour",
+    "destination": "Dubai",
+    "duration": "4 Days / 3 Nights",
+    "pricePerPerson": 6000,
+    "people": 1,
+    "totalPrice": 6000,
+    "userEmail": "test@gmail.com",
+    "bookedAt": "3/8/2026, 12:25:52 AM"
   }
 ]

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import "../css/RateUs.css";
 
@@ -10,8 +9,23 @@ function RateUs() {
   const [email, setEmail] = useState("");
   const [review, setReview] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [reviews, setReviews] = useState([]);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  const fetchReviews = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/reviews");
+      const data = await res.json();
+      setReviews(data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!rating || !name || !email || !review) {
@@ -27,22 +41,32 @@ function RateUs() {
       date: new Date().toLocaleDateString(),
     };
 
-    const existingReviews = JSON.parse(
-      localStorage.getItem("eliteReviews") || "[]"
-    );
-    existingReviews.push(newReview);
-    localStorage.setItem("eliteReviews", JSON.stringify(existingReviews));
+    try {
+      const res = await fetch("http://localhost:3000/api/reviews", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newReview),
+      });
 
-    setSubmitted(true);
-    setRating(0);
-    setName("");
-    setEmail("");
-    setReview("");
+      const data = await res.json();
 
-    setTimeout(() => setSubmitted(false), 4000);
+      alert(data.message);
+
+      setSubmitted(true);
+      setRating(0);
+      setName("");
+      setEmail("");
+      setReview("");
+
+      fetchReviews();
+
+      setTimeout(() => setSubmitted(false), 4000);
+    } catch (error) {
+      console.error("Review submission error:", error);
+    }
   };
-
-  const reviews = JSON.parse(localStorage.getItem("eliteReviews") || "[]");
 
   return (
     <>
@@ -107,13 +131,6 @@ function RateUs() {
                         </button>
                       ))}
                     </div>
-                    <p className="rating-label">
-                      {rating > 0
-                        ? ["Poor", "Fair", "Good", "Excellent", "Outstanding"][
-                            rating - 1
-                          ]
-                        : "Click to rate"}
-                    </p>
                   </div>
 
                   <div className="form-group">
@@ -150,12 +167,14 @@ function RateUs() {
                           <h3>{r.name}</h3>
                           <p className="review-date">{r.date}</p>
                         </div>
+
                         <div className="review-stars">
                           {[...Array(r.rating)].map((_, i) => (
                             <span key={i}>★</span>
                           ))}
                         </div>
                       </div>
+
                       <p className="review-text">{r.review}</p>
                     </div>
                   ))}

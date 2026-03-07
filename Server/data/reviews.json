@@ -5,5 +5,12 @@
     "rating": 5,
     "review": "Amazing travel experience!",
     "date": "05/03/2026"
+  },
+  {
+    "name": "aashna",
+    "email": "jainaashna714@gmail.com",
+    "rating": 5,
+    "review": "great",
+    "date": "3/8/2026"
   }
 ]

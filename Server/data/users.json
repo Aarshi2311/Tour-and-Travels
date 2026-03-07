@@ -4,5 +4,17 @@
     "name": "Aarshi",
     "email": "aarshigarg05@gmail.com",
     "password": "1234"
+  },
+  {
+    "id": 1772906483934,
+    "name": "aashna",
+    "email": "jainaashna714@gmail.com",
+    "password": "Aashnajain@12345"
+  },
+  {
+    "id": 1772908031929,
+    "name": "test",
+    "email": "test@gmail.com",
+    "password": "123456"
   }
 ]

@@ -10,19 +10,34 @@ function Signin() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // Fake login (since no backend)
-    const fakeUser = {
-      name: email.split("@")[0],
-      email: email,
-    };
+  try {
+    const res = await fetch("http://localhost:3000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    });
 
-    login(fakeUser);
+    const data = await res.json();
 
-    navigate("/dashboard");
-  };
+    alert(data.message);
+
+    if (res.ok) {
+      login(data.user);
+      navigate("/dashboard");
+    }
+
+  } catch (error) {
+    console.error("Login error:", error);
+  }
+};
 
   return (
     <div className="signin-container">
@@ -60,7 +75,7 @@ function Signin() {
           <button type="submit">Sign In</button>
 
           <div className="signup-text">
-            Don't have an account? <Link to="/Signup">Sign Up</Link>
+            Don't have an account? <Link to="/signup">Sign Up</Link>
           </div>
         </form>
       </div>

@@ -5,16 +5,27 @@ import Footer from "../components/Footer";
 import "../css/dashboard.css";
 
 function Dashboard() {
+  
   const { user, logout } = useContext(AuthContext);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  window.scrollTo(0, 0);
 
-  const storedBookings =
-    JSON.parse(localStorage.getItem("eliteBookings")) || [];
+  const fetchBookings = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/bookings");
+      const data = await res.json();
+      setBookings(data);
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+    }
+  };
 
-  const [bookings, setBookings] = useState(storedBookings);
+  fetchBookings();
+}, []);
+
+  const [bookings, setBookings] = useState([]);
+
 
   if (!user) {
     return (

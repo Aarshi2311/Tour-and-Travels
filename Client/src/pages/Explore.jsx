@@ -183,16 +183,13 @@ function PackageCard({ pkg }) {
 
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+const handleBooking = async () => {
 
-  const handleBooking = () => {
   if (!user) {
     alert("Please sign in to book this package.");
     navigate("/signin");
     return;
   }
-
-  const existingBookings =
-    JSON.parse(localStorage.getItem("eliteBookings")) || [];
 
   const newBooking = {
     packageId: pkg.id,
@@ -206,12 +203,23 @@ function PackageCard({ pkg }) {
     bookedAt: new Date().toLocaleString(),
   };
 
-  localStorage.setItem(
-    "eliteBookings",
-    JSON.stringify([...existingBookings, newBooking])
-  );
+  try {
 
-  alert("Package successfully added to your dashboard!");
+    const res = await fetch("http://localhost:3000/api/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newBooking)
+    });
+
+    const data = await res.json();
+
+    alert(data.message);
+
+  } catch (error) {
+    console.error("Booking error:", error);
+  }
 };
 
   return (
