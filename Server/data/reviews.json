@@ -12,5 +12,12 @@
     "rating": 5,
     "review": "great",
     "date": "3/8/2026"
+  },
+  {
+    "name": "Anshiya Kansal",
+    "email": "anshiyakansal.india@gmail.com",
+    "rating": 5,
+    "review": "the packages offered are amazing ",
+    "date": "8/3/2026"
   }
 ]
