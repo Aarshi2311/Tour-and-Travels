@@ -31,5 +31,49 @@
     "totalPrice": 6000,
     "userEmail": "test@gmail.com",
     "bookedAt": "3/8/2026, 12:25:52 AM"
+  },
+  {
+    "packageId": 3,
+    "packageName": "Dubai Luxury Tour",
+    "destination": "Dubai",
+    "duration": "4 Days / 3 Nights",
+    "pricePerPerson": 6000,
+    "people": 1,
+    "totalPrice": 6000,
+    "userEmail": "aarshigarg05@gamil.com",
+    "bookedAt": "9/3/2026, 7:13:21 pm"
+  },
+  {
+    "packageId": 2,
+    "packageName": "Swiss Alps Retreat",
+    "destination": "Switzerland",
+    "duration": "7 Days / 6 Nights",
+    "pricePerPerson": 8000,
+    "people": 1,
+    "totalPrice": 8000,
+    "userEmail": "aarshigarg05@gamil.com",
+    "bookedAt": "9/3/2026, 7:13:23 pm"
+  },
+  {
+    "packageId": 4,
+    "packageName": "Santorini Bliss",
+    "destination": "Greece",
+    "duration": "6 Days / 5 Nights",
+    "pricePerPerson": 7500,
+    "people": 1,
+    "totalPrice": 7500,
+    "userEmail": "aarshigarg05@gamil.com",
+    "bookedAt": "9/3/2026, 7:13:27 pm"
+  },
+  {
+    "packageId": 9,
+    "packageName": "Iceland Northern Lights",
+    "destination": "Iceland",
+    "duration": "6 Days / 5 Nights",
+    "pricePerPerson": 9500,
+    "people": 4,
+    "totalPrice": 38000,
+    "userEmail": "aarshigarg05@gamil.com",
+    "bookedAt": "9/3/2026, 7:13:37 pm"
   }
 ]
