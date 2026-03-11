@@ -82,5 +82,41 @@
     "totalPrice": 8000,
     "userEmail": "aryangarg699@gmail.com",
     "bookedAt": "11/3/2026, 1:14:34 pm"
+  },
+  {
+    "id": 1773228266147,
+    "packageId": 1,
+    "packageName": "Maldives Escape",
+    "destination": "Maldives",
+    "duration": "5 Days / 4 Nights",
+    "pricePerPerson": 5000,
+    "people": 1,
+    "totalPrice": 5000,
+    "userEmail": "anshiyakansal.india@gmail.com",
+    "bookedAt": "11/3/2026, 4:54:26 pm"
+  },
+  {
+    "id": 1773228273207,
+    "packageId": 7,
+    "packageName": "Tokyo Discovery",
+    "destination": "Japan",
+    "duration": "6 Days / 5 Nights",
+    "pricePerPerson": 8500,
+    "people": 2,
+    "totalPrice": 17000,
+    "userEmail": "anshiyakansal.india@gmail.com",
+    "bookedAt": "11/3/2026, 4:54:33 pm"
+  },
+  {
+    "id": 1773228276937,
+    "packageId": 9,
+    "packageName": "Iceland Northern Lights",
+    "destination": "Iceland",
+    "duration": "6 Days / 5 Nights",
+    "pricePerPerson": 9500,
+    "people": 1,
+    "totalPrice": 9500,
+    "userEmail": "anshiyakansal.india@gmail.com",
+    "bookedAt": "11/3/2026, 4:54:36 pm"
   }
 ]
