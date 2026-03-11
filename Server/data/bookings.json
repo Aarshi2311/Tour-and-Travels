@@ -1,5 +1,6 @@
 [
   {
+    "id": 1741190401001,
     "packageId": 1,
     "packageName": "Maldives Escape",
     "destination": "Maldives",
@@ -11,17 +12,7 @@
     "bookedAt": "05/03/2026, 8:30 PM"
   },
   {
-    "packageId": 1,
-    "packageName": "Maldives Escape",
-    "destination": "Maldives",
-    "duration": "5 Days / 4 Nights",
-    "pricePerPerson": 5000,
-    "people": 2,
-    "totalPrice": 10000,
-    "userEmail": "aarshi@gmail.com",
-    "bookedAt": "05/03/2026, 8:30 PM"
-  },
-  {
+    "id": 1741190401003,
     "packageId": 3,
     "packageName": "Dubai Luxury Tour",
     "destination": "Dubai",
@@ -33,17 +24,19 @@
     "bookedAt": "3/8/2026, 12:25:52 AM"
   },
   {
+    "id": 1741190401004,
     "packageId": 3,
     "packageName": "Dubai Luxury Tour",
     "destination": "Dubai",
     "duration": "4 Days / 3 Nights",
     "pricePerPerson": 6000,
-    "people": 1,
-    "totalPrice": 6000,
+    "people": 2,
+    "totalPrice": 12000,
     "userEmail": "aarshigarg05@gamil.com",
     "bookedAt": "9/3/2026, 7:13:21 pm"
   },
   {
+    "id": 1741190401005,
     "packageId": 2,
     "packageName": "Swiss Alps Retreat",
     "destination": "Switzerland",
@@ -55,6 +48,7 @@
     "bookedAt": "9/3/2026, 7:13:23 pm"
   },
   {
+    "id": 1741190401006,
     "packageId": 4,
     "packageName": "Santorini Bliss",
     "destination": "Greece",
@@ -66,6 +60,7 @@
     "bookedAt": "9/3/2026, 7:13:27 pm"
   },
   {
+    "id": 1741190401007,
     "packageId": 9,
     "packageName": "Iceland Northern Lights",
     "destination": "Iceland",
@@ -75,5 +70,17 @@
     "totalPrice": 38000,
     "userEmail": "aarshigarg05@gamil.com",
     "bookedAt": "9/3/2026, 7:13:37 pm"
+  },
+  {
+    "id": 1773215074586,
+    "packageId": 2,
+    "packageName": "Swiss Alps Retreat",
+    "destination": "Switzerland",
+    "duration": "7 Days / 6 Nights",
+    "pricePerPerson": 8000,
+    "people": 1,
+    "totalPrice": 8000,
+    "userEmail": "aryangarg699@gmail.com",
+    "bookedAt": "11/3/2026, 1:14:34 pm"
   }
 ]

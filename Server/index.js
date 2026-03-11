@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const { execSync } = require("child_process");
 
 const authRoutes = require("./routes/authRoutes");
 const packageRoutes = require("./routes/packagesRoutes");
@@ -46,6 +47,21 @@ app.use((req, res) => {
 
 /* ================= Start Server ================= */
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
+});
+
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    try {
+      execSync(
+        `Get-NetTCPConnection -LocalPort ${PORT} -State Listen | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force }`,
+        { shell: "powershell.exe", stdio: "ignore" }
+      );
+    } catch (e) { /* already freed */ }
+    server.listen(PORT);
+  } else {
+    console.error("Server error:", err);
+    process.exit(1);
+  }
 });

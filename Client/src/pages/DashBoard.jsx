@@ -64,17 +64,17 @@ function Dashboard() {
     0
   );
 
-  const handleRemove = (bookingToRemove) => {
-    const updatedBookings = bookings.filter(
-      (b) =>
-        !(
-          b.bookedAt === bookingToRemove.bookedAt &&
-          b.userEmail === bookingToRemove.userEmail
-        )
-    );
-
-    setBookings(updatedBookings);
-    localStorage.setItem("eliteBookings", JSON.stringify(updatedBookings));
+  const handleRemove = async (bookingToRemove) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/bookings/${bookingToRemove.id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Failed to remove booking");
+      setBookings((prev) => prev.filter((b) => b.id !== bookingToRemove.id));
+    } catch (error) {
+      console.error("Error removing booking:", error);
+      alert("Could not remove booking. Please try again.");
+    }
   };
 
   return (
@@ -119,8 +119,8 @@ function Dashboard() {
             </div>
           ) : (
             <div className="booking-grid">
-              {userBookings.map((b, index) => (
-                <div key={index} className="booking-card">
+              {userBookings.map((b) => (
+                <div key={b.id} className="booking-card">
                   <div
                     style={{
                       display: "flex",
