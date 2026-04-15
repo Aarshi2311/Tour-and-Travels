@@ -33,19 +33,5 @@
     "rating": 3,
     "review": "Didn't meet my expectations",
     "date": "9/3/2026"
-  },
-  {
-    "name": "Anshul",
-    "email": "anshul67895@gmail.com",
-    "rating": 5,
-    "review": "excellent ",
-    "date": "11/3/2026"
-  },
-  {
-    "name": "Abhinav",
-    "email": "abhi@gmail.com",
-    "rating": 4,
-    "review": "Nice website!!!",
-    "date": "11/3/2026"
   }
 ]
