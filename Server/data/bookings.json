@@ -70,17 +70,5 @@
     "totalPrice": 8000,
     "userEmail": "aryangarg699@gmail.com",
     "bookedAt": "11/3/2026, 1:14:34 pm"
-  },
-  {
-    "id": 1773226216239,
-    "packageId": 2,
-    "packageName": "Swiss Alps Retreat",
-    "destination": "Switzerland",
-    "duration": "7 Days / 6 Nights",
-    "pricePerPerson": 8000,
-    "people": 1,
-    "totalPrice": 8000,
-    "userEmail": "aarshigarg05@gamil.com",
-    "bookedAt": "11/3/2026, 4:20:16 pm"
   }
 ]
