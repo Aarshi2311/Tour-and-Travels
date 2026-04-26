@@ -137,10 +137,7 @@ function Signup() {
             disabled={loading}
           />
 
-          <div style={{ marginTop: "10px" }}>
-            <label htmlFor="profilePic" style={{ display: "block", marginBottom: "8px" }}>
-              Profile Picture (Optional):
-            </label>
+          <div style={{ marginTop: "10px", marginBottom: "16px" }}>
             <input
               type="file"
               id="profilePic"
@@ -149,17 +146,18 @@ function Signup() {
               onChange={handleChange}
               disabled={loading}
             />
+            <label 
+              htmlFor="profilePic" 
+              className={`profile-pic-label ${preview ? "has-file" : ""}`}
+            >
+              {preview ? "✓ Profile Picture Selected" : "📷 Choose Profile Picture (Optional)"}
+            </label>
             {preview && (
-              <div style={{ marginTop: "10px" }}>
+              <div className="preview-container">
                 <img
                   src={preview}
                   alt="Preview"
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
+                  className="preview-image"
                 />
               </div>
             )}

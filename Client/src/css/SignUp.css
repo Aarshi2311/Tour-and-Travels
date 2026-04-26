@@ -118,3 +118,49 @@
 .signup-text a:hover {
   text-decoration: underline;
 }
+
+/* FILE INPUT STYLING */
+#profilePic {
+  display: none;
+}
+
+.profile-pic-label {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 16px;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: #f9fafb;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.profile-pic-label:hover {
+  border-color: #192239;
+  background: #f0f4f8;
+  color: #192239;
+}
+
+.profile-pic-label.has-file {
+  border: 2px solid #192239;
+  background: #e8f0f8;
+  color: #192239;
+}
+
+.preview-container {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 150px;
+  border-radius: 8px;
+  border: 2px solid #192239;
+  object-fit: cover;
+}
