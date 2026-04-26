@@ -1,30 +1,36 @@
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import { getAllBookings, deleteBooking } from "../services/api";
 import "../css/dashboard.css";
 
 function Dashboard() {
-  
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
 
-  const fetchBookings = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/bookings");
-      const data = await res.json();
-      setBookings(data);
-    } catch (error) {
-      console.error("Error fetching bookings:", error);
+    if (!user) {
+      return;
     }
-  };
 
-  fetchBookings();
-}, []);
+    const fetchBookings = async () => {
+      try {
+        const res = await getAllBookings();
+        setBookings(res.data);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const [bookings, setBookings] = useState([]);
+    fetchBookings();
+  }, [user]);
 
 
   if (!user) {
@@ -66,16 +72,29 @@ function Dashboard() {
 
   const handleRemove = async (bookingToRemove) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/bookings/${bookingToRemove.id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Failed to remove booking");
-      setBookings((prev) => prev.filter((b) => b.id !== bookingToRemove.id));
+      await deleteBooking(bookingToRemove._id);
+      setBookings((prev) => prev.filter((b) => b._id !== bookingToRemove._id));
+      alert("Booking removed successfully");
     } catch (error) {
       console.error("Error removing booking:", error);
       alert("Could not remove booking. Please try again.");
     }
   };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
+  if (loading) {
+    return (
+      <div className="dashboard-page">
+        <div className="container">
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -89,7 +108,7 @@ function Dashboard() {
               </p>
             </div>
 
-            <button onClick={logout} className="btn btn-outline">
+            <button onClick={handleLogout} className="btn btn-outline">
               Logout
             </button>
           </div>
@@ -101,7 +120,7 @@ function Dashboard() {
             </div>
 
             <div className="stat-card">
-              <h3>₹ {totalSpent}</h3>
+              <h3>₹ {totalSpent.toLocaleString()}</h3>
               <p>Total Spent</p>
             </div>
           </div>
@@ -120,7 +139,7 @@ function Dashboard() {
           ) : (
             <div className="booking-grid">
               {userBookings.map((b) => (
-                <div key={b.id} className="booking-card">
+                <div key={b._id} className="booking-card">
                   <div
                     style={{
                       display: "flex",
@@ -131,7 +150,7 @@ function Dashboard() {
                   >
                     <h3>
                       {b.packageName}
-                      <span className="booking-badge">Confirmed</span>
+                      <span className="booking-badge">{b.status}</span>
                     </h3>
 
                     <button
@@ -145,9 +164,10 @@ function Dashboard() {
 
                   <p>{b.destination}</p>
                   <p>Duration: {b.duration}</p>
-                  <p>People: {b.people}</p>
-                  <p>Total Paid: ₹ {b.totalPrice}</p>
-                  <p>Booked On: {b.bookedAt}</p>
+                  <p>Guests: {b.guests}</p>
+                  <p>Price per person: ₹ {b.price.toLocaleString()}</p>
+                  <p>Total Paid: ₹ {b.totalPrice.toLocaleString()}</p>
+                  <p>Start Date: {new Date(b.startDate).toLocaleDateString()}</p>
                 </div>
               ))}
             </div>

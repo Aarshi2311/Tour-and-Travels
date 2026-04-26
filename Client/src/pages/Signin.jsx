@@ -1,43 +1,82 @@
 import React, { useState, useContext } from "react";
 import "../css/Signin.css";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import { AuthContext } from "../context/AuthContext";
+import { loginUser, googleLogin } from "../services/api";
 
 function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-  try {
-    const res = await fetch("http://localhost:3000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    });
+    try {
+      if (!email || !password) {
+        setError("Email and password are required");
+        setLoading(false);
+        return;
+      }
 
-    const data = await res.json();
+      const res = await loginUser(email, password);
 
-    alert(data.message);
+      if (res.data.token) {
+        login(res.data.user, res.data.token);
+        alert("Login successful!");
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      const message = err.response?.data?.message || "Login failed";
+      setError(message);
+      alert(message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    if (res.ok) {
-      login(data.user);
-      navigate("/dashboard");
+  // 🔵 GOOGLE LOGIN SUCCESS
+  const handleGoogleSuccess = async (credentialResponse) => {
+    // ✅ ADD THIS CHECK (important)
+    if (!credentialResponse || !credentialResponse.credential) {
+      alert("Google login failed (no credential)");
+      return;
     }
 
-  } catch (error) {
-    console.error("Login error:", error);
-  }
-};
+    try {
+      setError("");
+      setLoading(true);
+
+      const res = await googleLogin({
+        credential: credentialResponse.credential,
+      });
+
+      if (res.data.token) {
+        login(res.data.user, res.data.token);
+        alert("Google login successful!");
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      const message = err.response?.data?.message || "Google login failed";
+      setError(message);
+      alert(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔴 GOOGLE LOGIN ERROR
+  const handleGoogleError = () => {
+    setError("Google login failed");
+    alert("Google login failed");
+  };
 
   return (
     <div className="signin-container">
@@ -62,6 +101,7 @@ const handleSubmit = async (e) => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={loading}
           />
 
           <input
@@ -70,9 +110,42 @@ const handleSubmit = async (e) => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
           />
 
-          <button type="submit">Sign In</button>
+          {error && (
+            <div style={{ color: "red", marginTop: "10px" }}>
+              {error}
+            </div>
+          )}
+
+          <button type="submit" disabled={loading}>
+            {loading ? "Signing in..." : "Sign In"}
+          </button>
+
+          {/* GOOGLE LOGIN UI */}
+          <div
+            className="google-login"
+            style={{
+              marginTop: "20px",
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <p style={{ marginBottom: "10px" }}>
+              Or continue with Google
+            </p>
+
+            { <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              useOneTap
+              theme="outline"
+              size="large"
+            /> }
+          </div>
 
           <div className="signup-text">
             Don't have an account? <Link to="/signup">Sign Up</Link>

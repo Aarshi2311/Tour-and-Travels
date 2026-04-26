@@ -1,15 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
+import { getAllReviews, createReview } from "../services/api";
 import "../css/RateUs.css";
 
 function RateUs() {
+  const { user } = useContext(AuthContext);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [review, setReview] = useState("");
+  const [title, setTitle] = useState("");
+  const [reviewText, setReviewText] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   useEffect(() => {
     fetchReviews();
@@ -17,54 +22,52 @@ function RateUs() {
 
   const fetchReviews = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/reviews");
-      const data = await res.json();
-      setReviews(data);
+      const res = await getAllReviews();
+      setReviews(res.data);
     } catch (error) {
       console.error("Error fetching reviews:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!rating || !name || !email || !review) {
+    if (!user) {
+      alert("Please login to submit a review");
+      return;
+    }
+
+    if (!rating || !title || !reviewText) {
       alert("Please fill all fields and select a rating");
       return;
     }
 
-    const newReview = {
-      name,
-      email,
-      rating,
-      review,
-      date: new Date().toLocaleDateString(),
-    };
+    setSubmitLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/api/reviews", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newReview),
+      const res = await createReview({
+        rating,
+        title,
+        description: reviewText,
+        packageName: "Elite Escapes Experience",
       });
 
-      const data = await res.json();
-
-      alert(data.message);
-
-      setSubmitted(true);
-      setRating(0);
-      setName("");
-      setEmail("");
-      setReview("");
-
-      fetchReviews();
-
-      setTimeout(() => setSubmitted(false), 4000);
+      if (res.data.review) {
+        setSubmitted(true);
+        setRating(0);
+        setTitle("");
+        setReviewText("");
+        fetchReviews();
+        setTimeout(() => setSubmitted(false), 4000);
+      }
     } catch (error) {
+      const message = error.response?.data?.message || "Failed to submit review";
+      alert(message);
       console.error("Review submission error:", error);
+    } finally {
+      setSubmitLoading(false);
     }
   };
 
@@ -90,82 +93,82 @@ function RateUs() {
                   </div>
                 )}
 
-                <form onSubmit={handleSubmit}>
-                  <div className="form-group">
-                    <label>Your Name</label>
-                    <input
-                      type="text"
-                      placeholder="Enter your name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="form-input"
-                    />
+                {!user ? (
+                  <div style={{ padding: "20px", textAlign: "center", backgroundColor: "#f5f5f5", borderRadius: "5px" }}>
+                    <p>Please <Link to="/signin">sign in</Link> to submit a review.</p>
                   </div>
-
-                  <div className="form-group">
-                    <label>Email Address</label>
-                    <input
-                      type="email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="form-input"
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label>Your Rating</label>
-                    <div className="star-rating">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          type="button"
-                          className={`star ${
-                            (hoverRating || rating) >= star ? "active" : ""
-                          }`}
-                          onClick={() => setRating(star)}
-                          onMouseEnter={() => setHoverRating(star)}
-                          onMouseLeave={() => setHoverRating(0)}
-                        >
-                          ★
-                        </button>
-                      ))}
+                ) : (
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                      <label>Review Title</label>
+                      <input
+                        type="text"
+                        placeholder="Enter review title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className="form-input"
+                        disabled={submitLoading}
+                      />
                     </div>
-                  </div>
 
-                  <div className="form-group">
-                    <label>Your Review</label>
-                    <textarea
-                      placeholder="Tell us about your experience..."
-                      value={review}
-                      onChange={(e) => setReview(e.target.value)}
-                      className="form-textarea"
-                      rows="6"
-                    ></textarea>
-                  </div>
+                    <div className="form-group">
+                      <label>Your Rating</label>
+                      <div className="star-rating">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            key={star}
+                            type="button"
+                            className={`star ${
+                              (hoverRating || rating) >= star ? "active" : ""
+                            }`}
+                            onClick={() => setRating(star)}
+                            onMouseEnter={() => setHoverRating(star)}
+                            onMouseLeave={() => setHoverRating(0)}
+                            disabled={submitLoading}
+                          >
+                            ★
+                          </button>
+                        ))}
+                      </div>
+                    </div>
 
-                  <button type="submit" className="btn btn-gold submit-btn">
-                    Submit Review
-                  </button>
-                </form>
+                    <div className="form-group">
+                      <label>Your Review</label>
+                      <textarea
+                        placeholder="Tell us about your experience..."
+                        value={reviewText}
+                        onChange={(e) => setReviewText(e.target.value)}
+                        className="form-textarea"
+                        rows="6"
+                        disabled={submitLoading}
+                      ></textarea>
+                    </div>
+
+                    <button type="submit" className="btn btn-gold submit-btn" disabled={submitLoading}>
+                      {submitLoading ? "Submitting..." : "Submit Review"}
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
 
             <div className="reviews-section">
               <h2>Customer Reviews ({reviews.length})</h2>
 
-              {reviews.length === 0 ? (
+              {loading ? (
+                <p>Loading reviews...</p>
+              ) : reviews.length === 0 ? (
                 <div className="no-reviews">
                   <p>No reviews yet. Be the first to share your experience!</p>
                 </div>
               ) : (
                 <div className="reviews-grid">
-                  {reviews.map((r, index) => (
-                    <div key={index} className="review-card">
+                  {reviews.map((r) => (
+                    <div key={r._id} className="review-card">
                       <div className="review-header">
                         <div>
-                          <h3>{r.name}</h3>
-                          <p className="review-date">{r.date}</p>
+                          <h3>{r.userName}</h3>
+                          <p className="review-date">{new Date(r.createdAt).toLocaleDateString()}</p>
                         </div>
 
                         <div className="review-stars">
@@ -175,7 +178,8 @@ function RateUs() {
                         </div>
                       </div>
 
-                      <p className="review-text">{r.review}</p>
+                      <p style={{ fontWeight: "bold", marginBottom: "8px" }}>{r.title}</p>
+                      <p className="review-text">{r.description}</p>
                     </div>
                   ))}
                 </div>

@@ -1,54 +1,78 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
+const cors = require("cors");
+const fs = require("fs");
 const { execSync } = require("child_process");
 
+const connectDB = require("./config/db");
+const seedPackages = require("./seeds/seedPackages");
+
+// Routes
 const authRoutes = require("./routes/authRoutes");
-const packageRoutes = require("./routes/packagesRoutes");
+const packageRoutes = require("./routes/packageRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+
+// Middleware
 const logger = require("./middleware/logger");
-const cors = require("cors");
 
 const app = express();
-const PORT = 3000;
-// const HOST = "127.0.0.1";
+const PORT = process.env.PORT || 3000;
+
+// Create uploads directory if it doesn't exist
+const uploadsDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
+
+/* ================= DB ================= */
+const initializeDB = async () => {
+  try {
+    await connectDB();
+    await seedPackages();
+  } catch (error) {
+    console.error("Error initializing database:", error);
+  }
+};
+
+initializeDB();
 
 /* ================= Middleware ================= */
-
-// Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Static files (if needed later)
-app.use(express.static(path.join(__dirname, "public")));
-
-app.use(logger); // Custom logger middleware
-
-// CORS configuration
 app.use(cors());
-/* ================= Routes ================= */
+app.use(logger);
 
+// Serve static files
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+/* ================= Routes ================= */
 app.use("/api/auth", authRoutes);
 app.use("/api/packages", packageRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/reviews", reviewRoutes);
 
-/* ================= Home Test Route ================= */
-
+/* ================= Test Route ================= */
 app.get("/", (req, res) => {
   res.send("Elite Escapes Backend Running...");
 });
 
-/* ================= 404 Handler ================= */
-
+/* ================= 404 ================= */
 app.use((req, res) => {
   res.status(404).send("404 - Route Not Found");
 });
 
-/* ================= Start Server ================= */
+/* ================= Error Handler ================= */
+app.use((err, req, res, next) => {
+  console.error("Error:", err);
+  res.status(500).json({ message: "Internal server error" });
+});
 
+/* ================= Server ================= */
 const server = app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`✓ Server running at http://localhost:${PORT}`);
 });
 
 server.on("error", (err) => {
@@ -58,7 +82,7 @@ server.on("error", (err) => {
         `Get-NetTCPConnection -LocalPort ${PORT} -State Listen | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force }`,
         { shell: "powershell.exe", stdio: "ignore" }
       );
-    } catch (e) { /* already freed */ }
+    } catch (e) {}
     server.listen(PORT);
   } else {
     console.error("Server error:", err);
