@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import ProfilePicture from "../components/ProfilePicture";
 import { getAllBookings, deleteBooking } from "../services/api";
 import "../css/dashboard.css";
 
@@ -101,11 +102,14 @@ function Dashboard() {
       <div className="dashboard-page">
         <div className="container">
           <div className="dashboard-header">
-            <div>
-              <h1>Welcome, {user.name}</h1>
-              <p className="dashboard-sub">
-                Here’s a summary of your exclusive travel experiences.
-              </p>
+            <div className="dashboard-header-left">
+              <ProfilePicture />
+              <div>
+                <h1>Welcome, {user.name}</h1>
+                <p className="dashboard-sub">
+                  Here's a summary of your exclusive travel experiences.
+                </p>
+              </div>
             </div>
 
             <button onClick={handleLogout} className="btn btn-outline">

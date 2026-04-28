@@ -37,6 +37,16 @@ export const getUserProfile = () => {
   return api.get("/auth/profile");
 };
 
+export const uploadProfilePic = (formData) => {
+  return api.post("/auth/upload-profile-pic", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
+
+export const removeProfilePic = () => {
+  return api.delete("/auth/remove-profile-pic");
+};
+
 // PACKAGE ENDPOINTS
 export const getAllPackages = () => {
   return api.get("/packages");

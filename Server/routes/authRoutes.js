@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const authMiddleware = require("../middleware/authMiddleware");
-const { signup, login, googleLogin, getUserProfile } = require("../controllers/authControllers");
+const { signup, login, googleLogin, getUserProfile, uploadProfilePic, removeProfilePic } = require("../controllers/authControllers");
 
 // Configure multer for image uploads
 const storage = multer.diskStorage({
@@ -35,5 +35,7 @@ router.post("/signup", upload.single("profilePic"), signup);
 router.post("/login", login);
 router.post("/google-login", googleLogin);
 router.get("/profile", authMiddleware, getUserProfile);
+router.post("/upload-profile-pic", authMiddleware, upload.single("profilePic"), uploadProfilePic);
+router.delete("/remove-profile-pic", authMiddleware, removeProfilePic);
 
 module.exports = router;

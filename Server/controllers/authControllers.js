@@ -185,3 +185,96 @@ exports.getUserProfile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// UPLOAD PROFILE PICTURE
+exports.uploadProfilePic = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ 
+        success: false,
+        message: "No file uploaded" 
+      });
+    }
+
+    const userId = req.user.userId;
+    const profilePicPath = `/uploads/${req.file.filename}`;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { profilePic: profilePicPath },
+      { new: true }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ 
+        success: false,
+        message: "User not found" 
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Profile picture uploaded successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        profilePic: user.profilePic,
+      },
+    });
+  } catch (error) {
+    console.error("Upload profile pic error:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Server error during upload" 
+    });
+  }
+};
+
+// REMOVE PROFILE PICTURE
+exports.removeProfilePic = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const fs = require("fs").promises;
+    const path = require("path");
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ 
+        success: false,
+        message: "User not found" 
+      });
+    }
+
+    // Delete file from server if it exists and is not a Google profile pic
+    if (user.profilePic && user.profilePic.startsWith("/uploads/")) {
+      try {
+        const filePath = path.join(__dirname, "..", user.profilePic);
+        await fs.unlink(filePath);
+      } catch (err) {
+        console.log("File not found or already deleted");
+      }
+    }
+
+    // Update user document
+    user.profilePic = null;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Profile picture removed successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        profilePic: user.profilePic,
+      },
+    });
+  } catch (error) {
+    console.error("Remove profile pic error:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Server error during removal" 
+    });
+  }
+};
