@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Elite Escapes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .stat-card h3 {
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .stat-subtext {
+            font-size: 12px;
+            color: #999;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background-color: #f9f9f9;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+            font-weight: 600;
+            color: #333;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .badge-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .badge-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Elite Escapes Admin Dashboard</h1>
+        <div>Logged in as: Admin</div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h3>Total Bookings</h3>
+                <div class="stat-number"><%= totalBookings %></div>
+                <div class="stat-subtext">All time</div>
+            </div>
+            <div class="stat-card">
+                <h3>Active Packages</h3>
+                <div class="stat-number"><%= activePackages %></div>
+                <div class="stat-subtext">Currently available</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <div class="stat-number"><%= totalUsers %></div>
+                <div class="stat-subtext">Registered users</div>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Bookings</h3>
+                <div class="stat-number"><%= pendingBookings %></div>
+                <div class="stat-subtext">Awaiting confirmation</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Recent Bookings</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>User Name</th>
+                        <th>Package</th>
+                        <th>Guests</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (typeof recentBookings !== 'undefined' && recentBookings.length > 0) { %>
+                        <% recentBookings.forEach(function(booking) { %>
+                            <tr>
+                                <td><%= booking.id %></td>
+                                <td><%= booking.userName %></td>
+                                <td><%= booking.packageName %></td>
+                                <td><%= booking.guests %></td>
+                                <td>$<%= booking.totalPrice %></td>
+                                <td>
+                                    <% if (booking.status === 'Confirmed') { %>
+                                        <span class="badge badge-success"><%= booking.status %></span>
+                                    <% } else if (booking.status === 'Pending') { %>
+                                        <span class="badge badge-pending"><%= booking.status %></span>
+                                    <% } else { %>
+                                        <span class="badge badge-cancelled"><%= booking.status %></span>
+                                    <% } %>
+                                </td>
+                                <td><%= booking.date %></td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #999;">No recent bookings</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Top Packages</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Package Name</th>
+                        <th>Destination</th>
+                        <th>Price/Person</th>
+                        <th>Bookings</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (typeof topPackages !== 'undefined' && topPackages.length > 0) { %>
+                        <% topPackages.forEach(function(pkg) { %>
+                            <tr>
+                                <td><%= pkg.name %></td>
+                                <td><%= pkg.destination %></td>
+                                <td>$<%= pkg.price %></td>
+                                <td><%= pkg.bookingCount %></td>
+                                <td>★ <%= pkg.rating %>/5</td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: #999;">No packages available</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Elite Escapes Tours & Travels. All rights reserved.</p>
+    </div>
+</body>
+</html>

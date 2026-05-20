@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Cancellation - Elite Escapes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #dc3545;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            color: #dc3545;
+        }
+        .content {
+            margin: 20px 0;
+        }
+        .booking-details {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #dc3545;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .label {
+            font-weight: bold;
+            color: #dc3545;
+        }
+        .refund-info {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+        .refund-info h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Booking Cancelled</h1>
+            <p>Your booking has been cancelled</p>
+        </div>
+
+        <h2>Hello <%= userName %>,</h2>
+        <div class="content">
+            <p>We have processed the cancellation of your tour booking. Below are the details:</p>
+        </div>
+
+        <div class="booking-details">
+            <div class="detail-row">
+                <span class="label">Booking ID:</span>
+                <span><%= bookingId %></span>
+            </div>
+            <div class="detail-row">
+                <span class="label">Package:</span>
+                <span><%= packageName %></span>
+            </div>
+            <div class="detail-row">
+                <span class="label">Destination:</span>
+                <span><%= destination %></span>
+            </div>
+            <div class="detail-row">
+                <span class="label">Original Date:</span>
+                <span><%= originalDate %></span>
+            </div>
+            <div class="detail-row">
+                <span class="label">Original Amount:</span>
+                <span>$<%= originalAmount %></span>
+            </div>
+            <div class="detail-row">
+                <span class="label">Cancellation Date:</span>
+                <span><%= cancellationDate %></span>
+            </div>
+        </div>
+
+        <div class="refund-info">
+            <h3>Refund Information</h3>
+            <p><strong>Refund Amount:</strong> $<%= refundAmount %></p>
+            <p><strong>Refund Status:</strong> <%= refundStatus %></p>
+            <p><strong>Expected Refund Date:</strong> <%= expectedRefundDate %></p>
+            <p style="margin: 15px 0 0 0; font-size: 14px; color: #666;">The refund will be processed to your original payment method. Please allow 5-10 business days for the funds to appear in your account.</p>
+        </div>
+
+        <h3>What Happens Next?</h3>
+        <ul style="color: #666; line-height: 1.8;">
+            <li>Your booking has been cancelled effective immediately</li>
+            <li>You will receive a refund to your original payment method</li>
+            <li>A confirmation email will be sent once the refund is processed</li>
+            <li>You can contact us if you'd like to rebook a different tour</li>
+        </ul>
+
+        <p style="color: #666;">We're sorry to see you go! If there's anything we could have done better, please let us know at support@eliteescapes.com</p>
+
+        <div class="footer">
+            <p>© 2024 Elite Escapes Tours & Travels. All rights reserved.</p>
+            <p>For questions: support@eliteescapes.com | +1 (800) ESCAPES</p>
+        </div>
+    </div>
+</body>
+</html>

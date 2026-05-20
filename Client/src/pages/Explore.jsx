@@ -106,11 +106,35 @@ function Explore() {
 function PackageCard({ pkg }) {
   const [people, setPeople] = useState(1);
   const [startDate, setStartDate] = useState("");
+  const [dateError, setDateError] = useState("");
   const [bookingLoading, setBookingLoading] = useState(false);
   const totalPrice = pkg.price * people;
 
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // Get today's date in YYYY-MM-DD format
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
+
+  // Validate date selection
+  const handleDateChange = (e) => {
+    const selectedDate = e.target.value;
+    setStartDate(selectedDate);
+    
+    if (selectedDate) {
+      const today = getTodayDate();
+      if (selectedDate < today) {
+        setDateError("Please choose a valid date");
+      } else {
+        setDateError("");
+      }
+    } else {
+      setDateError("");
+    }
+  };
 
   const handleBooking = async () => {
     if (!user) {
@@ -121,6 +145,19 @@ function PackageCard({ pkg }) {
 
     if (!startDate) {
       alert("Please select a start date");
+      return;
+    }
+
+    // Check if selected date is in the past
+    const today = getTodayDate();
+    if (startDate < today) {
+      setDateError("Please choose a valid date");
+      alert("Please choose a valid date. You cannot book for past dates.");
+      return;
+    }
+
+    if (dateError) {
+      alert("Please choose a valid date");
       return;
     }
 
@@ -176,9 +213,11 @@ function PackageCard({ pkg }) {
           <input
             type="date"
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            onChange={handleDateChange}
+            min={getTodayDate()}
             disabled={bookingLoading}
           />
+          {dateError && <p className="error-message">{dateError}</p>}
         </div>
 
         <p className="total">Total: ₹ {totalPrice.toLocaleString()}</p>

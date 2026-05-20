@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Confirmation - Elite Escapes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #28a745;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            color: #28a745;
+        }
+        .review-content {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+        }
+        .stars {
+            color: #ffc107;
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .review-text {
+            font-style: italic;
+            color: #555;
+            padding: 10px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Thank You for Your Review!</h1>
+            <p>Your feedback helps us improve</p>
+        </div>
+
+        <h2>Hello <%= userName %>,</h2>
+        <p>We appreciate you taking the time to review your recent tour experience with us.</p>
+
+        <div class="review-content">
+            <p><strong>Package:</strong> <%= packageName %></p>
+            <p><strong>Rating:</strong></p>
+            <div class="stars">
+                <% for(let i = 0; i < rating; i++) { %>★<% } %>
+            </div>
+            <div class="review-text">
+                "<%= reviewText %>"
+            </div>
+        </div>
+
+        <p>Your review has been published and will help other travelers make informed decisions about booking tours with Elite Escapes.</p>
+
+        <p>We hope you had an amazing experience, and we'd love to see you on another tour soon!</p>
+
+        <div class="footer">
+            <p>© 2024 Elite Escapes Tours & Travels. All rights reserved.</p>
+            <p>For questions or concerns: support@eliteescapes.com</p>
+        </div>
+    </div>
+</body>
+</html>
