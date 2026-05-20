@@ -20,6 +20,15 @@ const logger = require("./middleware/logger");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const requiredEnvVars = ["JWT_SECRET"];
+const missingEnvVars = requiredEnvVars.filter((name) => !process.env[name]);
+if (missingEnvVars.length) {
+  console.error(
+    `✗ Missing required environment variables: ${missingEnvVars.join(", ")}`
+  );
+  process.exit(1);
+}
+
 // Create uploads directory if it doesn't exist
 const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) {

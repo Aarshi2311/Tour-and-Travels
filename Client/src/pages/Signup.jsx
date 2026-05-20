@@ -81,7 +81,7 @@ function Signup() {
         navigate("/dashboard");
       }
     } catch (err) {
-      const message = err.response?.data?.message || "Signup failed";
+      const message = err.response?.data?.message || err.message || "Signup failed";
       setError(message);
       alert(message);
     } finally {

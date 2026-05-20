@@ -108,22 +108,21 @@ function PackageCard({ pkg }) {
   const [startDate, setStartDate] = useState("");
   const [dateError, setDateError] = useState("");
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [showMap, setShowMap] = useState(false);
   const totalPrice = pkg.price * people;
 
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Get today's date in YYYY-MM-DD format
   const getTodayDate = () => {
     const today = new Date();
     return today.toISOString().split("T")[0];
   };
 
-  // Validate date selection
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
     setStartDate(selectedDate);
-    
+
     if (selectedDate) {
       const today = getTodayDate();
       if (selectedDate < today) {
@@ -148,7 +147,6 @@ function PackageCard({ pkg }) {
       return;
     }
 
-    // Check if selected date is in the past
     const today = getTodayDate();
     if (startDate < today) {
       setDateError("Please choose a valid date");
@@ -222,10 +220,41 @@ function PackageCard({ pkg }) {
 
         <p className="total">Total: ₹ {totalPrice.toLocaleString()}</p>
 
-        <button onClick={handleBooking} className="btn btn-gold" disabled={bookingLoading}>
-          {bookingLoading ? "Booking..." : "Book Now"}
-        </button>
+        <div className="action-row">
+          <button
+            type="button"
+            className="btn btn-map"
+            onClick={() => setShowMap(true)}
+          >
+            📍 View Map
+          </button>
+          <button onClick={handleBooking} className="btn btn-gold" disabled={bookingLoading}>
+            {bookingLoading ? "Booking..." : "Book Now"}
+          </button>
+        </div>
       </div>
+
+      {showMap && (
+        <div className="map-modal-overlay" onClick={() => setShowMap(false)}>
+          <div className="map-modal" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="map-close"
+              onClick={() => setShowMap(false)}
+              aria-label="Close map"
+            >
+              ×
+            </button>
+            <h4>Map — {pkg.destination}</h4>
+            <iframe
+              title={`Map of ${pkg.destination}`}
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(
+                pkg.destination
+              )}&output=embed`}
+              allowFullScreen
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
